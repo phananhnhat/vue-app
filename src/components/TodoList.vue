@@ -4,6 +4,8 @@
     <BaseInputText2
       :text="inputText"
       @change1="changeInputString"
+      @keydown.enter="addTodo"
+      @hihi="hihi"
     />
     <BaseInputText1
         :obj="inputObj"
@@ -16,6 +18,7 @@
     <BaseInputText
         v-model="newTodoText"
         placeholder="New todo"
+        :placeholder1="true"
         @keydown.enter="addTodo"
     />
     <ul v-if="todos.length">
@@ -60,6 +63,7 @@ export default {
           id: nextTodoId++,
           text: 'Checkbox vào đây thì ko đc đâu',
           selected: false,
+          isNotSelected: true,
         },
         {
           id: nextTodoId++,
@@ -129,18 +133,20 @@ export default {
       //   return todo;
       // })
 
+
+      debugger;
       this.todos.forEach(todo => {
-        // if(id === 2 && todo.id =) {
-        //   todo.selected = false;
-        //   return;
-        // }
-        if (todo.id === id) {
-          if(id === 2) {
-            todo.selected = true;
-            return;
-          }
-          todo.selected = value;
+        if(id === 2 && todo.id) {
+          todo.selected = true;
+          return;
         }
+        // if (todo.id === id) {
+        //   if(id === 2) {
+        //     todo.selected = true;
+        //     return;
+        //   }
+        //   todo.selected = value;
+        // }
       })
 
       console.log('selectTodo', this.todos);
@@ -148,6 +154,10 @@ export default {
 
     submit() {
       console.log(this.todos);
+    },
+
+    hihi() {
+      console.log('hihih')
     },
 
   },

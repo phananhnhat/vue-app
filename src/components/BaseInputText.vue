@@ -1,6 +1,6 @@
 /* eslint-disable */
 <template>
-  <input type="text" class="input" v-model="text" v-on="listeners" />
+  <input type="text" class="input" v-model="text" v-on="{input: input, 'keydown.enter': testMethods}" v-on:keydown.enter="testMethods" />
   <p>{{ text }}</p>
 </template>
 
@@ -18,6 +18,7 @@
 
 <script>
 export default {
+  inheritAttrs: false,
   props: ['modelValue'],
   data: function () {
     return {
@@ -26,13 +27,21 @@ export default {
   },
   computed: {
     listeners() {
+      debugger;
       return {
         // Pass all component listeners directly to input
         // eslint-disable-next-line vue/no-deprecated-dollar-listeners-api
-        ...this.$listeners,
+        ...this.$attrs,
         // Override input listener to work with v-model
+        // TODO keydown.enter thì ko thể dùng cách này, bắt buộc phải bỏ vào trên template luôn
+        'keydown.enter': this.testMethods,
         input: this.input,
       };
+    },
+    attr() {
+      return {
+        ...this.$attrs,
+      }
     },
   },
   methods: {
@@ -56,7 +65,14 @@ export default {
     // TODO: Cách làm sai. Do cần sử dụng thêm watch => phức tạp
     input2: function (event) {
       this.$emit("update:modelValue", event.target.value);
-    }
+    },
+    testMethods: function() {
+      debugger;
+      alert('test');
+    },
+    // 'keydown.enter': function () {
+    //   alert('enter');
+    // }
   },
   watch: {
     // TODO: Cách làm sai, gán trực tiếp modalValue vào cho tag input, vì có 1 thời điểm dữ liệu bị sai, ko như mong muốn
