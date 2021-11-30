@@ -20,6 +20,8 @@
         placeholder="New todo"
         :placeholder1="true"
         @keydown.enter="addTodo"
+        @hihi="hihi"
+        @addTodo="addTodo"
     />
     <ul v-if="todos.length">
       <TodoListItem

@@ -1,7 +1,20 @@
 /* eslint-disable */
+
+
+<!--v-on="{input: input, 'keydown.enter': testMethods}"-->
+<!--v-on:keydown.enter="testMethods"-->
+
 <template>
-  <input type="text" class="input" v-model="text" v-on="{input: input, 'keydown.enter': testMethods}" v-on:keydown.enter="testMethods" />
-  <p>{{ text }}</p>
+  <div>
+    <input
+        type="text"
+        class="input"
+        v-model="text"
+        v-on="listeners"
+        v-on:keydown.enter="keyDownEnter"
+    />
+    <p>{{ text }}</p>
+  </div>
 </template>
 
 // TODO: Cách sai 1.
@@ -34,6 +47,7 @@ export default {
         ...this.$attrs,
         // Override input listener to work with v-model
         // TODO keydown.enter thì ko thể dùng cách này, bắt buộc phải bỏ vào trên template luôn
+        // TODO: Document: v-on also supports binding to an object of event/listener pairs without an argument. Note when using the object syntax, it does not support any modifiers.
         'keydown.enter': this.testMethods,
         input: this.input,
       };
@@ -66,13 +80,11 @@ export default {
     input2: function (event) {
       this.$emit("update:modelValue", event.target.value);
     },
-    testMethods: function() {
-      debugger;
-      alert('test');
+    keyDownEnter: function() {
+      // TODO emit với keydown.enter ko hoạt động
+      // this.$emit('keydown.enter');
+      this.$emit('addTodo');
     },
-    // 'keydown.enter': function () {
-    //   alert('enter');
-    // }
   },
   watch: {
     // TODO: Cách làm sai, gán trực tiếp modalValue vào cho tag input, vì có 1 thời điểm dữ liệu bị sai, ko như mong muốn
